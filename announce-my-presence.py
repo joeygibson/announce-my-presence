@@ -2,7 +2,8 @@ import json
 import os
 
 def lambda_handler(event, context):
-    print("lambda_handler event=" + json.dumps(event))
+    if os.environ['DEBUG'] == "true":
+        print("lambda_handler event=" + json.dumps(event))
     
     app_id = os.environ['APP_ID']
     
@@ -17,10 +18,8 @@ def lambda_handler(event, context):
         return on_launch(request, session)
     elif request_type == "IntentRequest":
         return on_intent(request, session)
-    elif request_type == 'AMAZON.PauseIntent':
-        return on_stop(request, session)
-
-def on_stop(intent_request, session):
+    
+def stop():
     return {
         'version': '1.0',
         'response': {
@@ -43,10 +42,14 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "AMAZON.PauseIntent":
-        return on_stop(intent, session)
+    if intent_name == "AnnounceIntent":
+        return play()  
+    elif intent_name == "AMAZON.PauseIntent":
+        return stop()
+    elif intent_name == 'AMAZON.ResumeIntent':
+        return play()
     elif intent_name == "StopIntent":
-        return on_stop(intent, session)
+        return stop()
     else:
         raise ValueError("Invalid intent")    
 
@@ -57,7 +60,10 @@ def on_launch(launch_request, session):
 
     print("on_launch requestId=" + launch_request['requestId'] +
           ", sessionId=" + session['sessionId'])
-          
+    
+    return play()      
+    
+def play():
     # Dispatch to your skill's launch
     return {
         'version': '1.0',
@@ -78,5 +84,4 @@ def on_launch(launch_request, session):
             "shouldEndSession": True
         }
     }
-
 
