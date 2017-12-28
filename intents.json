@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {
+      "intent": "AMAZON.PauseIntent"
+    },
+    {
+      "intent": "AMAZON.ResumeIntent"
+    },
+    {
+      "intent": "AnnounceIntent"
+    },
+    {
+      "intent": "StopIntent"
+    }
+  ]
+}
+

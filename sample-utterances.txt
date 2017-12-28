@@ -1,0 +1,3 @@
+AnnounceIntent announce my presence
+StopIntent stop
+
