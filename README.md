@@ -1,6 +1,6 @@
 # announce-my-presence
 
-AWS Lambda function for the Announce My Presence Alexa skill
+AWS Lambda function for the [Announce My Presence](https://www.amazon.com/dp/B078N3WBQN) Alexa skill
 
 ## Requirements
 
