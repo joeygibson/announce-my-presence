@@ -64,7 +64,8 @@ def on_launch(launch_request, session):
     return play()      
     
 def play():
-    # Dispatch to your skill's launch
+    fanfare_url = os.environ['FANFARE_URL']
+    
     return {
         'version': '1.0',
         'response': {
@@ -75,7 +76,7 @@ def play():
                     "audioItem": {
                         "stream": {
                             "token": "12345",
-                            "url": "https://s3.amazonaws.com/jygb-alexa-assets/fanfare.mp3",
+                            "url": f"{fanfare_url}",
                             "offsetInMilliseconds": 0
                         }
                     }
