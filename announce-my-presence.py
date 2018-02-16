@@ -51,7 +51,7 @@ def on_intent(intent_request, session):
     elif intent_name == "StopIntent" or intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.PauseIntent":
         return stop()
     else:
-        raise ValueError("Invalid intent")    
+        return play()   
 
 def on_launch(launch_request, session):
     """ Called when the user launches the skill without specifying what they
