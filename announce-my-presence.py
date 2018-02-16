@@ -7,12 +7,16 @@ def lambda_handler(event, context):
     
     app_id = os.environ['APP_ID']
     
-    if event['session']['application']['applicationId'] != app_id:
-        raise ValueError("Invalid Application ID")
+    session = event.get('session')
+    
+    # if 'session' is None:
+    #     print("NO SESSION! APP_ID: " + app_id)
+    # else:
+    #     if event['session']['application']['applicationId'] != app_id:
+    #         raise ValueError("Invalid Application ID")
     
     request = event['request']
     request_type = request['type']
-    session = event['session']
     
     if request_type == "LaunchRequest":
         return on_launch(request, session)
@@ -42,13 +46,9 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "AnnounceIntent":
+    if intent_name == "AnnounceIntent" or intent_name == 'AMAZON.ResumeIntent' or intent_name == 'AMAZON.NextIntent':
         return play()  
-    elif intent_name == "AMAZON.PauseIntent":
-        return stop()
-    elif intent_name == 'AMAZON.ResumeIntent':
-        return play()
-    elif intent_name == "StopIntent":
+    elif intent_name == "StopIntent" or intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.PauseIntent":
         return stop()
     else:
         raise ValueError("Invalid intent")    
@@ -85,4 +85,3 @@ def play():
             "shouldEndSession": True
         }
     }
-
